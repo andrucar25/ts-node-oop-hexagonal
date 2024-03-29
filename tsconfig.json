@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "esModuleInterop": true, //para permitir interoperabilidad entre compiladors de paquetes 
+    "target": "ES2020", //la version a la cual se va a traspilar
+    "moduleResolution": "Node10", //como se hace referencia a las carpetas
+    "sourceMap": false, //es para depurar
+    "noImplicitAny": true, //que no asuma que alguna variable es tipo any si no tiene tipado
+    "resolveJsonModule": true, //para vincular archivos json a ts 
+    "baseUrl": "./", //desde donde va a buscar archivos para traspilar
+    "outDir": "./cache" //para que los archivos traspilados vayan a esa carpeta destino
+  }
+}
