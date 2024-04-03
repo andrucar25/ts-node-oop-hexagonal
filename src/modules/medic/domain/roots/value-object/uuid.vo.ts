@@ -1,4 +1,6 @@
+import { Result, err, ok } from 'neverthrow';
 import {validate} from 'uuid';
+import { UUIDException } from '../exceptions/uuid.exception';
 
 export class UuidVO {
   private readonly value: string;
@@ -7,11 +9,12 @@ export class UuidVO {
     this.value = value;
   }
 
-  static create(value: string): UuidVO{
+  static create(value: string): Result<UuidVO, UUIDException>{
     if(!validate(value)){
-      throw new Error("INvalid uuid");
+      return err(new UUIDException())
+    }else{
+      return ok(new UuidVO(value));
     }
-    return new UuidVO(value);
   }
 
   getValue(): string{

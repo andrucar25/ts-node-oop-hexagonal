@@ -11,5 +11,8 @@
   "devDependencies": {
     "@types/uuid": "^9.0.8",
     "uuid": "9.0.1"
+  },
+  "dependencies": {
+    "neverthrow": "^6.1.0"
   }
 }

@@ -1,6 +1,6 @@
-import { DatabaseException } from "../../infrastructure/exceptions/database.exception";
 import { Medic } from "../roots/medic";
+import { MedicSaveResult } from "../../infrastructure/medic.infrastructure";
 
 export interface MedicRepository {
-  save(medic: Medic): Medic | DatabaseException;
+  save(medic: Medic): MedicSaveResult;
 }

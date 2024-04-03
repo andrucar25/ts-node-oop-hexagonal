@@ -46,8 +46,13 @@ export class MedicController {
       age: 30
     }
 
-    return this.application.create(props);
+    const result = this.application.create(props);
     
+    if(result.isErr()){
+      console.log(result.error.name, result.error.message);
+    }else {
+      return result.value
+    }
 
   }
 }
@@ -56,3 +61,4 @@ const infrastructure: MedicRepository = new MedicInfrastructure();
 const application = new MedicApplication(infrastructure);
 const controller = new MedicController(application);
 console.log(controller.insert());
+
