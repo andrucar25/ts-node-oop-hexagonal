@@ -3,7 +3,7 @@ import { Disease } from "../entities/disease";
 import { Specialty } from "../entities/specialty";
 import { MedicFactory } from "./medict.factory";
 
-type GENDER = "M" | "F"
+export type GENDER = "M" | "F"
 
 export interface MedicEssentials {
   readonly id: string;

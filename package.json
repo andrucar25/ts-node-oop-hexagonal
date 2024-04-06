@@ -9,10 +9,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/uuid": "^9.0.8",
-    "uuid": "9.0.1"
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.5",
+    "@types/uuid": "^9.0.8"
   },
   "dependencies": {
-    "neverthrow": "^6.1.0"
+    "class-transformer": "^0.5.1",
+    "express": "^4.19.2",
+    "neverthrow": "^6.1.0",
+    "reflect-metadata": "^0.2.2",
+    "uuid": "9.0.1"
   }
 }

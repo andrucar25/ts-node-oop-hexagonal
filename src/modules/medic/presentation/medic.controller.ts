@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
+import "reflect-metadata";
 import { MedicApplication } from "../application/medic.application";
 import { MedicProperties } from "../domain/roots/medic";
 import { Disease } from '../domain/entities/disease';
 import { MedicRepository } from '../domain/repositories/medic.repository';
 import { MedicInfrastructure } from '../infrastructure/medic.infrastructure';
+import { MedicCreateResponse } from './dtos/medic-create.dto';
 
 export class MedicController {
   private application: MedicApplication;
@@ -51,7 +53,7 @@ export class MedicController {
     if(result.isErr()){
       console.log(result.error.name, result.error.message);
     }else {
-      return result.value
+      return MedicCreateResponse.fromDomainToResponse(result.value);
     }
 
   }
