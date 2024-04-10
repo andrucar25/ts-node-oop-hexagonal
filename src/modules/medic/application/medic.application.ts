@@ -1,7 +1,7 @@
 import { MedicProperties } from "../domain/roots/medic";
 import { MedicFactory } from "../domain/roots/medict.factory";
 import { MedicRepository } from "../domain/repositories/medic.repository";
-import { MedicSaveResult } from "../infrastructure/medic.infrastructure";
+import { MedicGetAllResult, MedicSaveResult } from "../infrastructure/medic.infrastructure";
 
 
 export class MedicApplication {
@@ -20,5 +20,9 @@ export class MedicApplication {
       return saveResult;
     }
 
+  }
+
+  getAll(): MedicGetAllResult {
+    return this.repository.getAll();
   }
 }

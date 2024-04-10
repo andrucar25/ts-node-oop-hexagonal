@@ -1,23 +1,22 @@
-import express, {Response} from "express";
-import http from "http";
+import ServerBootstrap from "./bootstrap/Server.bootstrap";
+import app from "./app";
+import { Bootstrap } from "./bootstrap/bootstrap";
 
-const app = express();
+const server: Bootstrap = new ServerBootstrap(app);
 
-app.get("/", (req, res) => {
-  res.status(200).type("text/plain").send("Hello World");
-})
+//esto es una funcion autoinvocada
+(async () => {
+  try{
+    const promises : Array<Promise<boolean | Error>> = [server.initialize()];
+    await Promise.all(promises);
 
-http.createServer(app).listen(3000, () => console.log("Server running..."));
+  } catch(error){
+    console.log(error);
+    process.exit(1)
+    //el 0 indica que termino de forma natural y el 1 es que hay un error
+  }
+})()
 
-//server con node puro
-// import http from "http";
-
-// http.createServer((req, res) => {
-//   res.writeHead(200, {"content-type": "text/plain"})
-//   res.write("hello word")
-//   res.write("hola mundo")
-//   res.end()
-// }).listen(3000);
 
 //20x = success
 //30x = redirect

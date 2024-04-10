@@ -96,36 +96,3 @@ export class Medic {
     return MedicFactory.create(props);
   }
 }
-
-// const props : Props = {
-//   id: "01e668c2-4007-46a2-a6d9-a478d9027966",
-//   name: "juan",
-//   lastname: "perez",
-//   dni: "12345678",
-//   email: "juan@gmail",
-//   phone: "123455678",
-//   address: [
-//     {
-//       address: "avenida 1",
-//       district: "san isidro",
-//       province: "lima",
-//       department: "lima",
-//     },
-//     {
-//       address: "avenida 2",
-//       district: "san isidro",
-//       province: "lima",
-//       department: "lima",
-//     },
-//   ],
-//   nationality: "peruvian",
-//   cmp: "12345",
-//   gender: "M",
-//   specialty: {
-//     id: "1",
-//     name: "CArdiologia",
-//     description: "ejemplo",
-//   },
-//   diseases: [new Disease("Diabetes"), new Disease("hipertension")],
-//   age: 30
-// }
