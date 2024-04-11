@@ -6,7 +6,14 @@ class App {
 
   constructor(){
     this.app = express();
+    this.mountMiddlewares();
     this.mountRoutes();
+  }
+
+  mountMiddlewares(): void {
+    //el express.json y el urlencoded se habilitan para reconocer la data que se envia en el request 
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({extended: true}))
   }
 
   mountRoutes(): void {

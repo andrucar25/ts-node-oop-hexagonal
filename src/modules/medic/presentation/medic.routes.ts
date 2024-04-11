@@ -20,6 +20,10 @@ export class MedicRouter {
     this.router.get("/", (req, res) => {  //aca se llama directamente al metodo getAll para que no haya proeblemas en el controller y no tener que
       controller.getAll(req,res)          //llamar esta linea this.getAll = this.getAll.bind(this)
     });
+
+    this.router.post("/", (req, res) => {
+      controller.insert(req, res)
+    })
   }
 
   getRouter(): Router{

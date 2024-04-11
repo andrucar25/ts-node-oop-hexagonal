@@ -1,8 +1,8 @@
-import { Result, err, ok } from "neverthrow";
+import { Result, ok } from "neverthrow";
 import { MedicRepository } from "../domain/repositories/medic.repository";
-import { GENDER, Medic, MedicProperties } from "../domain/roots/medic";
+import { Medic } from "../domain/roots/medic";
 import { DatabaseException } from "./exceptions/database.exception";
-import { Disease } from "../domain/entities/disease";
+import { MedicGetAllDto } from "./dtos/get-all.dto";
 
 export type MedicSaveResult = Result<Medic, DatabaseException>
 export type MedicGetAllResult = Result<Medic[], Error>
@@ -36,53 +36,9 @@ export class MedicInfrastructure implements MedicRepository{
     }
 
     const listMedic = [medic, medic, medic, medic];
-    let errorMatch: any;
+    
+    return MedicGetAllDto.fromDataToDomain(listMedic);
 
-    const list: Array<Medic> = listMedic.map(medic => {
-      const properties: MedicProperties = {
-        id: medic.id,
-        name: medic.mombre,
-        lastname: medic.apellido,
-        dni: medic.dni,
-        email: medic.email,
-        phone: medic.telefono,
-        cmp: medic.cmp,
-        address: [
-          {
-            address: medic.direccion,
-            district: medic.distrito,
-            province: medic.provincia,
-            department: medic.departamento
-          }
-        ],
-        nationality: medic.nacionalidad,
-        specialty: {
-          id: medic.especialidadId,
-          name: medic.especialidad,
-          description: medic.descripcion
-        },
-        diseases: [
-          new Disease(medic.enfermedad1),
-          new Disease(medic.enfermedad2)
-        ],
-        age: medic.edad,
-        gender: medic.sexo as GENDER
-      };
-
-      const result = Medic.reconstitute(properties);
-
-      if(!result.isErr()){
-        return result.value
-      }else{
-        errorMatch = result.error;
-      }
-    })
-
-    if(errorMatch){
-      return err(errorMatch);
-    }
-
-    return ok(list);
   }
 }
 
