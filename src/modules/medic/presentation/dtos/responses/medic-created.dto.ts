@@ -1,11 +1,11 @@
 import { Exclude, Expose, Type, plainToInstance } from 'class-transformer';
-import { Specialty } from '../../domain/entities/specialty';
-import { GENDER, Medic } from '../../domain/roots/medic';
-import { Address } from '../../domain/entities/address';
-import { Disease } from '../../domain/entities/disease';
+import { Specialty } from '../../../domain/entities/specialty';
+import { GENDER, Medic } from '../../../domain/roots/medic';
+import { Address } from '../../../domain/entities/address';
+import { Disease } from '../../../domain/entities/disease';
 import { v4 as uuidv4 } from 'uuid';
 
-export class MedicCreateDto {
+export class MedicCreatedDto {
   @Expose({name: "id"})
   medicId: string;
 
@@ -55,8 +55,8 @@ export class MedicCreateDto {
 export class StandardResponse {
   traceId: string;
 
-  @Type(() => MedicCreateDto) //esto devuelve metadata, por eso se instala la libreria para habilitar el uso de metadata
-  results: MedicCreateDto
+  @Type(() => MedicCreatedDto) //esto devuelve metadata, por eso se instala la libreria para habilitar el uso de metadata
+  results: MedicCreatedDto
 
   constructor(){
     this.traceId = uuidv4();

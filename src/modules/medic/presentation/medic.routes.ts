@@ -21,8 +21,8 @@ export class MedicRouter {
       controller.getAll(req,res)          //llamar esta linea this.getAll = this.getAll.bind(this)
     });
 
-    this.router.post("/", (req, res) => {
-      controller.insert(req, res)
+    this.router.post("/", (req: any, res:any, next:any) => {
+      controller.insert(req, res, next)
     })
   }
 
