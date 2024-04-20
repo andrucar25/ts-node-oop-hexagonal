@@ -10,7 +10,7 @@ class App {
     this.mountHealthCheck();
     this.mountMiddlewares();
     this.mountRoutes();
-    this.mountHandlerErrors();
+    this.mountHandlerErrors();  //el middleware de errores va despues del las rutas para controlar los errores de rutas
   }
 
   mountHealthCheck(): void {
@@ -29,6 +29,7 @@ class App {
     this.app.use("/medic", MedicRouter);
   }
   mountHandlerErrors(): void{
+    this.app.use(HandlerErrors.notFound);  
     this.app.use(HandlerErrors.generic)
   }
 
