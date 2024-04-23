@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: server-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_PASSWORD: 12345
+      MYSQL_USER: user
+      MYSQL_DATABASE: course_nodejs
+    volumes:
+      - vol-course-mysql:/var/lib/mysql
+
+# el compose puede crear el volumen si no existe
+volumes:
+  vol-course-mysql:
+    name: vol-course-mysql
