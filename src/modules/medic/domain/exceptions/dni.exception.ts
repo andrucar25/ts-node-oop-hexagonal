@@ -1,4 +1,4 @@
-import {ExceptionBase, ExceptionCode} from "../../../../../core/exceptions/exception-base";
+import {ExceptionBase, ExceptionCode} from "../../../../core/exceptions/exception-base";
 
 export class MedicDNIException extends ExceptionBase{
   constructor(){

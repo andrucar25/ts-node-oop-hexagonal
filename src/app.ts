@@ -1,6 +1,7 @@
 import express, { Application } from "express";
-import MedicRouter from "./modules/medic/presentation/medic.routes";
 import { HandlerErrors } from "./core/helpers/errors";
+import MedicRouter from "./modules/medic/presentation/medic.routes";
+import UserRouter from "./modules/user/presentation/user.routes";
 
 class App {
   private readonly app: Application
@@ -27,7 +28,9 @@ class App {
 
   mountRoutes(): void {
     this.app.use("/medic", MedicRouter);
+    this.app.use("/user", UserRouter);
   }
+  
   mountHandlerErrors(): void{
     this.app.use(HandlerErrors.notFound);  
     this.app.use(HandlerErrors.generic)

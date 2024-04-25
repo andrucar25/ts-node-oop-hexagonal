@@ -3,7 +3,7 @@ import { Application } from "express";
 import { Bootstrap } from "./bootstrap";
 import logger from "../core/helpers/logger";
 
-export default class implements Bootstrap{
+export default class implements Bootstrap{  //esta es una clase anonima
   constructor(private readonly app: Application){}
 
   initialize(): Promise<boolean | Error>{
@@ -24,5 +24,9 @@ export default class implements Bootstrap{
     // promise
     //   .then((messageReturned: string) => {console.log(messageReturned)})
     //   .catch((messageErrorReturned: NodeJS.ErrnoException) => {console.log(messageErrorReturned)})
+  }
+
+  close() {
+    process.exit(1);
   }
 }

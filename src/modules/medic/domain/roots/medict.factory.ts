@@ -1,15 +1,15 @@
 import { Result, err, ok } from "neverthrow";
-import { MedicAgeException } from "./exceptions/age.exception";
+import { MedicAgeException } from "../exceptions/age.exception";
 import { Medic, MedicProperties } from "./medic";
-import { UuidVO } from "./value-object/uuid.vo";
-import { MedicDNIException } from "./exceptions/dni.exception";
-import { MedicPhoneException } from "./exceptions/phone.exception";
-import { MedicCMPException } from "./exceptions/cmp.exception";
+import { UuidVO } from "../value-object/uuid.vo";
+import { MedicDNIException } from "../exceptions/dni.exception";
+import { MedicPhoneException } from "../exceptions/phone.exception";
+import { MedicCMPException } from "../exceptions/cmp.exception";
 import {
   MedicAddressEmptyException,
   MedicAddressMaximumException,
-} from "./exceptions/address.exception";
-import { UUIDException } from "./exceptions/uuid.exception";
+} from "../exceptions/address.exception";
+import { UUIDException } from "../exceptions/uuid.exception";
 
 export type MedicFactoryResult = Result<Medic,
 | MedicAgeException

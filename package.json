@@ -9,18 +9,22 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.12.5",
+    "@types/node": "^20.12.7",
     "@types/uuid": "^9.0.8",
     "nodemon": "^3.1.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "chalk": "4.1.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^4.19.2",
+    "mysql2": "^3.9.7",
     "neverthrow": "^6.1.0",
     "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20",
     "uuid": "9.0.1",
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0"

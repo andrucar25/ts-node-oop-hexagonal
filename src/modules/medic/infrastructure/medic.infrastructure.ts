@@ -1,7 +1,7 @@
 import { Result, ok } from "neverthrow";
 import { MedicRepository } from "../domain/repositories/medic.repository";
 import { Medic } from "../domain/roots/medic";
-import { DatabaseException } from "./exceptions/database.exception";
+import { DatabaseException } from "../../../core/exceptions/database.exception";
 import { MedicGetAllDto } from "./dtos/get-all.dto";
 
 export type MedicSaveResult = Result<Medic, DatabaseException>
