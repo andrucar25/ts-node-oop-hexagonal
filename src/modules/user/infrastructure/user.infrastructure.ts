@@ -7,18 +7,31 @@ import { UserEntity } from "./persistence/entities/user.entity";
 import { UserCreatedResponse } from "../application/response/user-created.response";
 import { DatabaseException } from "../../../core/exceptions/database.exception";
 
-export type UserSaveResult = Result<UserCreatedResponse, DatabaseException>
+export type UserResult = Result<UserCreatedResponse | UserCreatedResponse[], DatabaseException>
 
 export class UserInfrastructure implements UserRepository{
-  getAll() {
-    throw new Error("Method not implemented.");
-  }
-  
-  async save(user: User): Promise<UserSaveResult>{
+
+  async getAll(): Promise<UserResult> {
     try{
       const userRepository = MySQLBootstrap.dataSource.getRepository(UserEntity);
+      const users = await userRepository.find({where: {isActive: true}, relations: ["roles"]});
+      // const users = await userRepository.find({where: {isActive: true}, relations: ["roles"]});  // al colocar el relations ["roles"] funciona como un populate para roles, tambien se puede hacer lo mismo desde la entity user sin usar el relations
+
+      return ok(UserModelDto.fromDataToResponse(users))
+
+    }catch(error){
+      return err(new DatabaseException(error.message))
+
+    }
+  }
+  
+  async save(user: User): Promise<UserResult>{
+    try{
+      const userRepository = MySQLBootstrap.dataSource.getRepository(UserEntity);
+      
       const userEntity = UserModelDto.fromDomainToData(user);
 
+      
       await userRepository.save(userEntity);
 
       return ok(UserModelDto.fromDataToResponse(userEntity))

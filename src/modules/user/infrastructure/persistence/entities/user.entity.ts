@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from "typeorm";
+import { RoleEntity } from '../../../../roles/infrastructure/persistence/entities/role.entity';
 
 @Entity({name: "user"})
 export class UserEntity {
@@ -34,5 +35,10 @@ export class UserEntity {
 
   @Column({type: "datetime", nullable: true})
   deletedAt: Date | null
+
+  @ManyToMany(()=> RoleEntity, (role) => role.users, {eager: true}) //el eager hace el populate, la otra forma de hacerlo es con relations en infrastructure
+  // @ManyToMany(()=> RoleEntity, (role) => role.users)
+  @JoinTable()      //esto especifica quien manda en la relacion con la otra tabla
+  roles: RoleEntity[];
 
 }

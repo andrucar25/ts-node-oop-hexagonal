@@ -2,6 +2,7 @@ import { plainToInstance } from "class-transformer";
 import { UserCreatedResponse } from "../../application/response/user-created.response";
 import { User } from "../../domain/roots/user";
 import { UserEntity } from "../persistence/entities/user.entity";
+import { RoleEntity } from "../../../roles/infrastructure/persistence/entities/role.entity";
 
 export class UserModelDto {
   
@@ -20,21 +21,21 @@ export class UserModelDto {
     userEntity.createdAt = properties.createdAt
     userEntity.updatedAt = properties.updatedAt
     userEntity.deletedAt = properties.deletedAt
-    // userEntity.roles = properties.roles;
+    userEntity.roles = properties.roles as RoleEntity[];
 
     return userEntity
   }
 
-  static fromDataToResponse(userEntity: UserEntity): UserCreatedResponse {
-    // if (Array.isArray(userEntity)) {
-    //   return userEntity.map((user) => {
-    //     return plainToInstance(UserCreatedResponse, user, {
-    //       excludeExtraneousValues: true,
-    //     });
-    //   });
-    // } else {
-      return plainToInstance(UserCreatedResponse, userEntity);
-    // }
+  static fromDataToResponse(userEntity: UserEntity | UserEntity[]): UserCreatedResponse | UserCreatedResponse[] {
+    if (Array.isArray(userEntity)) {
+      return userEntity.map((user) => {
+        return plainToInstance(UserCreatedResponse, user, {
+          excludeExtraneousValues: true,
+        });
+      });
+    } else {
+      return plainToInstance(UserCreatedResponse, userEntity, {excludeExtraneousValues: true}); //el excludeExtraneousValues excluye todas las propiedades que no esten en la lista de lo que se va a exponer en la response, osea en UserCreatedResponse
+    }
   }
 
 }

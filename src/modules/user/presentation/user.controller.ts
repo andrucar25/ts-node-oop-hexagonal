@@ -63,5 +63,14 @@ export class UserController {
       
     }
     
+    async getAll(req: Request, res: Response, next: NextFunction){
+      const usersResult = await this.application.getAll();
+
+      if(usersResult.isErr()){
+        return next(usersResult.error);
+      }
+
+      return res.status(200).json(usersResult.value);
+    }
   
 }

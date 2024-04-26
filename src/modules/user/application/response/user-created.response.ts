@@ -1,5 +1,13 @@
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 
+export class RoleResponse {
+  // @Exclude()
+  // id: number;
+
+  @Expose()
+  name: string;
+
+}
 export class UserCreatedResponse {
   @Expose()
   id: string;
@@ -27,4 +35,8 @@ export class UserCreatedResponse {
   
   @Exclude()
   deletedAt: Date | null;
+
+  @Expose()
+  @Type(() => RoleResponse)
+  roles: RoleResponse[];
 }
