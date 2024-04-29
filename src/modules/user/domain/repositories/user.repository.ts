@@ -1,7 +1,9 @@
-import { UserResult } from "../../infrastructure/user.infrastructure";
+import { UserDomainResult, UserGetByPageResult, UserResult } from "../../infrastructure/user.infrastructure";
 import { User } from "../roots/user";
 
 export interface UserRepository {
   save(user: User): Promise<UserResult>;
-  getAll(): Promise<UserResult>
+  getAll(): Promise<UserResult>;
+  getById(id: string): Promise<UserDomainResult>;
+  getByPage(page: number, pageSize: number): Promise<UserGetByPageResult>;
 }

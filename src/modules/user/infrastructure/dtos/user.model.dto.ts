@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { UserCreatedResponse } from "../../application/response/user-created.response";
-import { User } from "../../domain/roots/user";
+import { User, UserProperties } from '../../domain/roots/user';
 import { UserEntity } from "../persistence/entities/user.entity";
 import { RoleEntity } from "../../../roles/infrastructure/persistence/entities/role.entity";
 
@@ -36,6 +36,25 @@ export class UserModelDto {
     } else {
       return plainToInstance(UserCreatedResponse, userEntity, {excludeExtraneousValues: true}); //el excludeExtraneousValues excluye todas las propiedades que no esten en la lista de lo que se va a exponer en la response, osea en UserCreatedResponse
     }
+  }
+
+  static fromDataToDomain(userEntity: UserEntity): User {
+    const properties: UserProperties = {
+      id: userEntity.id,
+      name: userEntity.name,
+      lastname: userEntity.lastname,
+      email: userEntity.email,
+      password: userEntity.password,
+      photo: userEntity.photo,
+      isActive: userEntity.isActive,
+      refreshToken: userEntity.refreshToken,
+      createdAt: userEntity.createdAt,
+      updatedAt: userEntity.updatedAt,
+      deletedAt: userEntity.deletedAt,
+      roles: userEntity.roles,
+    };
+
+    return User.reconstitute(properties);
   }
 
 }

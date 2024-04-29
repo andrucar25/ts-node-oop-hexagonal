@@ -10,10 +10,10 @@ export class UserFactory {
   static create(properties: UserProperties): UserFactoryResult{
     const userProperties = {
       ...properties,
-      id: uuidv4(),
-      refreshToken: uuidv4(),
-      isActive: true,
-      createdAt: new Date(), 
+      id: properties.id ?? uuidv4(),
+      refreshToken: properties.refreshToken ?? uuidv4(),
+      isActive: properties.isActive ?? true,
+      createdAt: properties.createdAt ?? new Date(), 
     };
 
     if(properties.name.length <= 3) return err(

@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserApplication } from "../application/user.application";
-import { UserCreateDto } from './dtos/requests/user-create.dto';
-import { validate } from 'class-validator';
-import { IError } from '../../../core/error/error.interface';
 import { UserProperties } from '../domain/roots/user';
 import { UserFactory } from '../domain/roots/user.factory';
 
@@ -11,33 +8,6 @@ export class UserController {
 
     async insert(req: Request, res: Response, next: NextFunction){
       const { name, lastname, email, password, roles } = req.body;
-
-      const userCreateDto = new UserCreateDto();
-      userCreateDto.name = name;
-      userCreateDto.lastname = lastname;
-      userCreateDto.email = email;
-      userCreateDto.password = password;
-      userCreateDto.roles = roles;
-
-      const errors = await validate(userCreateDto);
-
-      if (errors.length > 0) {
-        const listErrors: string[] = [];
-        for (const error of errors) {
-          for (const constraint in error.constraints) {
-            listErrors.push(error.constraints[constraint]);
-          }
-        }
-  
-        const err: IError = new Error();
-        err.name = "ValidationError";
-        err.message = "Validation Error";
-        err.stack = listErrors.join(" || ");
-        err.status = 411;
-  
-        return next(err);
-      }
-
       const userProperties: UserProperties = {
         name,
         lastname,
@@ -65,6 +35,59 @@ export class UserController {
     
     async getAll(req: Request, res: Response, next: NextFunction){
       const usersResult = await this.application.getAll();
+
+      if(usersResult.isErr()){
+        return next(usersResult.error);
+      }
+
+      return res.status(200).json(usersResult.value);
+    }
+
+    async remove(req: Request, res: Response, next: NextFunction){
+      const {id} = req.params;
+
+      const userResult = await this.application.getById(id);
+      if(userResult.isErr()){
+        return next(userResult.error);
+      }
+
+      const user = userResult.value;
+      user.delete();
+
+      const userRemovedResult = await this.application.remove(user);
+
+      if(userRemovedResult.isErr()){
+        return next(userRemovedResult.error)
+      }
+
+      return res.status(200).json(userRemovedResult.value);
+    }
+
+    async update(req: Request, res: Response, next: NextFunction){
+      const {id} = req.params;
+      const { name, lastname, password, roles } = req.body;
+
+      const userResult = await this.application.getById(id);
+      if(userResult.isErr()){
+        return next(userResult.error);
+      }
+
+      const user = userResult.value;
+      user.update({ name, lastname, password, roles });
+
+      const userUpdatedResult = await this.application.update(user);
+
+      if(userUpdatedResult.isErr()){
+        return next(userUpdatedResult.error)
+      }
+
+      return res.status(200).json(userUpdatedResult.value);
+      
+    }
+
+    async getByPage(req: Request, res: Response, next: NextFunction){
+      const {page, pageSize} = req.params;
+      const usersResult = await this.application.getByPage(+page, +pageSize); //colocar el + adelante hace que esos parametros se conviertan en numeros, ya que llegan como string
 
       if(usersResult.isErr()){
         return next(usersResult.error);

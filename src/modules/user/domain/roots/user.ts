@@ -20,6 +20,7 @@ export interface UserOptional {
 
 export type UserProperties = UserRequired & Partial<UserOptional>;
 
+export type USerPropertiesUpdate = Partial<Omit<UserRequired, "email"> & Pick<UserOptional, "photo">>
 export class User {
   private readonly id: string;
   private name: string;
@@ -60,5 +61,18 @@ export class User {
 
     if(result.isErr()) throw result.error
     return result.value
+  }
+
+  delete(){
+    this.isActive = false;
+    this.deletedAt = new Date();
+  }
+
+  update(fields: USerPropertiesUpdate){
+    const fieldsFiltered = Object.fromEntries(
+      Object.entries(fields).filter(([_, v]) => v != null)
+    );
+    Object.assign(this, fieldsFiltered);
+    this.updatedAt = new Date();
   }
 }

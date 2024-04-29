@@ -5,6 +5,11 @@ import { UserApplication } from "../application/user.application";
 import { UserController } from "./user.controller";
 import { RoleRepository } from "../../roles/domain/repositories/role.repository";
 import { RoleInfrastructure } from "../../roles/infrastructure/role.infrastructure";
+import { Validator } from "../../../core/presentation/middlewares/validator";
+import { UserCreateDto } from "./dtos/requests/user-create.dto";
+import { UserIdDto } from "./dtos/requests/user-id.dto";
+import { UserUpdateDto } from "./dtos/requests/user-update.dto";
+import { UserByPageDto } from "./dtos/requests/user-by-page.dto";
 
 const userRepository: UserRepository = new UserInfrastructure();
 const roleRepository: RoleRepository = new RoleInfrastructure();
@@ -22,8 +27,11 @@ class UserRoutes {
   }
 
   addRoutes() {
-    this.router.post("/", userController.insert.bind(userController));  //el bind esta puesto para que busque el objeto de contexto dentro de la clase userController
+    this.router.post("/", Validator.execute({body: new UserCreateDto()}), userController.insert.bind(userController));  //el bind esta puesto para que busque el objeto de contexto dentro de la clase userController
     this.router.get("/", userController.getAll.bind(userController));
+    this.router.get("/page/:page/:pageSize", Validator.execute({params: new UserByPageDto()}),userController.getByPage.bind(userController));
+    this.router.delete("/:id", Validator.execute({params: new UserIdDto(), body: new UserUpdateDto()}) ,userController.remove.bind(userController));
+    this.router.put("/:id", Validator.execute({params: new UserIdDto()}), userController.update.bind(userController));
   }
 }
 
