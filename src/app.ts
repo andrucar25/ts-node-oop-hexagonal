@@ -1,7 +1,11 @@
 import express, { Application } from "express";
+import cors from "cors";
+import helmet from "helmet";
 import { HandlerErrors } from "./core/helpers/errors";
 import MedicRouter from "./modules/medic/presentation/medic.routes";
 import UserRouter from "./modules/user/presentation/user.routes";
+import RedisBootstrap from "./bootstrap/Redis.bootstrap";
+import { AuthenticationMiddleware } from "./core/presentation/middlewares/authentication";
 
 class App {
   private readonly app: Application
@@ -21,6 +25,8 @@ class App {
   }
 
   mountMiddlewares(): void {
+    this.app.use(cors());  //el cors hace que cualquier dominio tenga response de este backend 
+    this.app.use(helmet());  //esto hace que no muestre alguna informacion del backend en el network, pone proteccion y bloquea que se usen los endpoints en un iframe
     //el express.json y el urlencoded se habilitan para transformar la data a json que se envia en el request.body 
     this.app.use(express.json());
     this.app.use(express.urlencoded({extended: true}))
@@ -28,7 +34,8 @@ class App {
 
   mountRoutes(): void {
     this.app.use("/medic", MedicRouter);
-    this.app.use("/user", UserRouter);
+    this.app.use("/user", AuthenticationMiddleware.canActive, UserRouter);
+    this.app.get("/invalidate-cache", RedisBootstrap.clearCache)   //este endpoint se creo para eliminar la cache
   }
   
   mountHandlerErrors(): void{

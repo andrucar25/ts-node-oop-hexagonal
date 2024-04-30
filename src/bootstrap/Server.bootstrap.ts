@@ -2,6 +2,7 @@ import http from "http";
 import { Application } from "express";
 import { Bootstrap } from "./bootstrap";
 import logger from "../core/helpers/logger";
+import { Parameters } from "../core/helpers/parameters";
 
 export default class implements Bootstrap{  //esta es una clase anonima
   constructor(private readonly app: Application){}
@@ -11,9 +12,9 @@ export default class implements Bootstrap{  //esta es una clase anonima
     const server = http.createServer(this.app);
 
     server
-      .listen(3000)
+      .listen(Parameters.PORT)
       .on("listening", () => {
-        logger.info(`Server is running on port ${3000}`);
+        logger.info(`Server is running on port ${Parameters.PORT}`);
         resolve(true);
       })
       .on("error", (error: Error) => {

@@ -4,9 +4,11 @@ import ServerBootstrap from "./bootstrap/Server.bootstrap";
 import { Bootstrap } from "./bootstrap/bootstrap";
 import logger from "./core/helpers/logger";
 import MySQLBootstrap from "./bootstrap/MySQL.bootstratp";
+import RedisBootstrap from "./bootstrap/Redis.bootstrap";
 
 const server: Bootstrap = new ServerBootstrap(app);
 const mysql: Bootstrap = new MySQLBootstrap();
+const redis: Bootstrap = new RedisBootstrap();
 
 //esto es una funcion autoinvocada
 (async () => {
@@ -15,6 +17,7 @@ const mysql: Bootstrap = new MySQLBootstrap();
     const promises : Array<Promise<boolean | Error | DataSource>> = [
       server.initialize(), 
       mysql.initialize(),
+      redis.initialize()
     ];
     await Promise.all(promises);
     logger.info("MySQL connected");
@@ -23,6 +26,7 @@ const mysql: Bootstrap = new MySQLBootstrap();
     logger.error(error);
     mysql.close();
     server.close();
+    redis.close();
     //el 0 indica que termino de forma natural y el 1 es que hay un error
   }
 })()

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { UserApplication } from "../application/user.application";
 import { UserProperties } from '../domain/roots/user';
 import { UserFactory } from '../domain/roots/user.factory';
+import RedisBootstrap from '../../../bootstrap/Redis.bootstrap';
 
 export class UserController {
   constructor(private readonly application: UserApplication){}
@@ -39,6 +40,8 @@ export class UserController {
       if(usersResult.isErr()){
         return next(usersResult.error);
       }
+
+      RedisBootstrap.set(res.locals.cacheKey, JSON.stringify(usersResult.value))
 
       return res.status(200).json(usersResult.value);
     }
@@ -92,6 +95,8 @@ export class UserController {
       if(usersResult.isErr()){
         return next(usersResult.error);
       }
+
+      RedisBootstrap.set(res.locals.cacheKey, JSON.stringify(usersResult.value))
 
       return res.status(200).json(usersResult.value);
     }

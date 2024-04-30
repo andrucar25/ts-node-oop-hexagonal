@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  mysql:
+  mysql-server:
     image: mysql:8
-    container_name: server-mysql
+    container_name: mysql-server
     ports:
       - "3306:3306"
     environment:
@@ -13,8 +13,50 @@ services:
       MYSQL_DATABASE: course_nodejs
     volumes:
       - vol-course-mysql:/var/lib/mysql
+    networks:
+      - net-course
+
+  mysql-client:
+    image: phpmyadmin:5
+    container_name: mysql-client
+    restart: always
+    ports:
+      - "8200:80"
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - net-course
+
+  redis-server:
+    image: redis:6.0.5-alpine
+    container_name: redis-server
+    command: redis-server --requirepass TOP_SECRET
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - net-course
+  
+  redis-client:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-client
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOST=redis-server
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=TOP_SECRET
+    depends_on:                                     #esto indica que debe esperar a que redis-server se haya iniciado 
+      - redis-server
+    networks:
+      - net-course
 
 # el compose puede crear el volumen si no existe
 volumes:
   vol-course-mysql:
     name: vol-course-mysql
+
+networks:
+  net-course:
+    name: net-course
