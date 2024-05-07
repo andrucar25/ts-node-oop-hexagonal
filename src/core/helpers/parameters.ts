@@ -52,4 +52,12 @@ export class Parameters {
       maxQueryExecutionTime: Number(process.env.DB_MAX_QUERY_EXECUTION_TIME) || 10000,
     }
   }
+
+  static get TOKEN_EXPIRES_TIME() {
+    return Number(process.env.TIME_EXPIRES_TIME) || 1
+  }
+
+  static get TOKEN_SECRET_KEY() {
+    return process.env.TOKEN_SECRET_KEY || "Y1WH>2!OaBqiTXF1+mWfezXp.9hINR_gwDS!:<4Nf~!h"
+  }
 }

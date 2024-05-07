@@ -13,6 +13,7 @@ import { UserByPageDto } from "./dtos/requests/user-by-page.dto";
 import { CacheMiddleware } from "../../../core/presentation/middlewares/cache";
 import { Upload, UploadBuilder, UploadOptions } from "../../../core/presentation/middlewares/upload";
 import { AuthorizationMiddleware } from "../../../core/presentation/middlewares/authorization";
+import { AuthenticationMiddleware } from '../../../core/presentation/middlewares/authentication';
 
 const userRepository: UserRepository = new UserInfrastructure();
 const roleRepository: RoleRepository = new RoleInfrastructure();
@@ -40,7 +41,8 @@ class UserRoutes {
 
     this.router.post("/", AuthorizationMiddleware.canActive("ADMIN", "MEDIC") ,Upload.save(uploadOptions), 
       Validator.execute({body: new UserCreateDto()}), userController.insert.bind(userController));  //el bind esta puesto para que busque el objeto de contexto dentro de la clase userController
-    this.router.get("/", CacheMiddleware.build("user"),userController.getAll.bind(userController));
+    this.router.get("/", AuthorizationMiddleware.canActive("ADMIN", "MEDIC"), 
+      CacheMiddleware.build("user"),userController.getAll.bind(userController));
     this.router.get("/page/:page/:pageSize", CacheMiddleware.build("userByPage"), Validator.execute({params: new UserByPageDto()}),userController.getByPage.bind(userController));
     this.router.delete("/:id", Validator.execute({params: new UserIdDto(), body: new UserUpdateDto()}) ,userController.remove.bind(userController));
     this.router.put("/:id", Validator.execute({params: new UserIdDto()}), userController.update.bind(userController));

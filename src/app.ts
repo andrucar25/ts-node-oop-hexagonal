@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { HandlerErrors } from "./core/helpers/errors";
 import MedicRouter from "./modules/medic/presentation/medic.routes";
 import UserRouter from "./modules/user/presentation/user.routes";
+import AuthRouter from "./modules/auth/presentation/auth.routes";
 import RedisBootstrap from "./bootstrap/Redis.bootstrap";
 import { AuthenticationMiddleware } from "./core/presentation/middlewares/authentication";
 
@@ -36,6 +37,7 @@ class App {
     this.app.use("/medic", MedicRouter);
     this.app.use("/user", AuthenticationMiddleware.canActive, UserRouter);
     this.app.get("/invalidate-cache", RedisBootstrap.clearCache)   //este endpoint se creo para eliminar la cache
+    this.app.use("/auth", AuthRouter)
   }
   
   mountHandlerErrors(): void{

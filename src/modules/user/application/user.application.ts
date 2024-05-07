@@ -1,7 +1,7 @@
-import bcryptjs from 'bcryptjs';
 import { UserRepository } from '../domain/repositories/user.repository';
 import { User, UserProperties } from '../domain/roots/user';
 import { RoleRepository } from '../../roles/domain/repositories/role.repository';
+import { Crypt } from '../../../core/helpers/crypt';
 
 export class UserApplication {
   constructor(private readonly userRepository:UserRepository, private readonly roleRepository:RoleRepository){}
@@ -12,6 +12,10 @@ export class UserApplication {
 
   async getById(id: string){
     return await this.userRepository.getById(id);
+  }
+
+  async getByEmail(email: string){
+    return await this.userRepository.getByEmail(email)
   }
 
   async create(user: User){
@@ -25,7 +29,7 @@ export class UserApplication {
       rolesUser = rolesGetByIdsResult.value;
     }
     
-    const passwordHashed = await bcryptjs.hash(user.properties().password, 10)  //el 10 indica un nivel de complejidad  de cifrado 
+    const passwordHashed = await Crypt.hash(user.properties().password)
     const userProperties: UserProperties = {
       ...user.properties(),
       password: passwordHashed,

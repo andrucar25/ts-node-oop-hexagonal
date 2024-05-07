@@ -34,7 +34,7 @@ export class UserInfrastructure implements UserRepository{
       const roleRepository =
         MySQLBootstrap.dataSource.getRepository(RoleEntity);
       const rolesUser = await roleRepository.findBy({
-        id: In(user.properties().roles as number[]),
+        id: In(user.properties().roles.map((role: any) => role.id) as number[]),
       });
 
       const userRepository = MySQLBootstrap.dataSource.getRepository(UserEntity);
@@ -56,6 +56,17 @@ export class UserInfrastructure implements UserRepository{
     try{
       const userRepository = MySQLBootstrap.dataSource.getRepository(UserEntity);
       const userEntity = await userRepository.findOne({where: {id, isActive: true}, relations:["roles"]});
+
+      return ok(UserModelDto.fromDataToDomain(userEntity))
+    }catch(error){
+      return err(new DatabaseException(error.message))
+    }
+  }
+
+  async getByEmail(email: string): Promise<UserDomainResult>{
+    try{
+      const userRepository = MySQLBootstrap.dataSource.getRepository(UserEntity);
+      const userEntity = await userRepository.findOne({where: {email, isActive: true}, relations:["roles"]});
 
       return ok(UserModelDto.fromDataToDomain(userEntity))
     }catch(error){
