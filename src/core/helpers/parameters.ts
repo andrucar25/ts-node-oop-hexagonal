@@ -41,7 +41,7 @@ export class Parameters {
       host: process.env.DB_HOST || "localhost",
       port: Number(process.env.DB_PORT) || 3306,
       entities: [
-        process.env.DB_ENTITIES || "src/**/infrastructure/persistence/entities/*.entity.ts"
+        process.env.DB_ENTITIES || "src/**/infrastructure/**/*.entity.ts"
       ],
       username: process.env.DB_USERNAME || "user",
       password: process.env.DB_USERNAME || "12345",

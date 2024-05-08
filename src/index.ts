@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import dotenv from "dotenv";
 import app from "./app";
 import ServerBootstrap from "./bootstrap/Server.bootstrap";
 import { Bootstrap } from "./bootstrap/bootstrap";
@@ -9,6 +10,8 @@ import RedisBootstrap from "./bootstrap/Redis.bootstrap";
 const server: Bootstrap = new ServerBootstrap(app);
 const mysql: Bootstrap = new MySQLBootstrap();
 const redis: Bootstrap = new RedisBootstrap();
+
+dotenv.config();
 
 //esto es una funcion autoinvocada
 (async () => {
