@@ -3,3 +3,6 @@ logs
 data-mysql
 cache
 dist
+coverage
+reports
+test-report.xml

@@ -4,3 +4,7 @@ dist
 data-mysql
 logs
 test
+coverage
+reports
+test-report.xml
+jest.config.js
