@@ -35,7 +35,7 @@ class App {
 
   mountRoutes(): void {
     this.app.use("/medic", MedicRouter);
-    this.app.use("/user", AuthenticationMiddleware.canActive, UserRouter);
+    this.app.use("/user", UserRouter);
     this.app.get("/invalidate-cache", RedisBootstrap.clearCache)   //este endpoint se creo para eliminar la cache
     this.app.use("/auth", AuthRouter)
   }

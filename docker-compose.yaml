@@ -52,6 +52,14 @@ services:
     networks:
       - net-course
 
+  sonarqube:
+    image: sonarqube:8-community
+    container_name: sonarqube
+    ports:
+      - '9000:9000'
+      - '9092:9092'
+    networks:
+      - net-course
 # el compose puede crear el volumen si no existe
 volumes:
   vol-course-mysql:

@@ -21,7 +21,12 @@ export class UserModelDto {
     userEntity.createdAt = properties.createdAt
     userEntity.updatedAt = properties.updatedAt
     userEntity.deletedAt = properties.deletedAt
-    userEntity.roles = properties.roles as RoleEntity[];
+    userEntity.roles = properties.roles.map((role: any) => {
+      const roleObj = new RoleEntity();
+      roleObj.id = role.id;
+      roleObj.name = role.name;
+      return roleObj
+    });
 
     return userEntity
   }

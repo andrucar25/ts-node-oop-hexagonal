@@ -39,9 +39,9 @@ class UserRoutes {
       .addIsPublic(true)
       .build();
 
-    this.router.post("/", AuthorizationMiddleware.canActive("ADMIN", "MEDIC") ,Upload.save(uploadOptions), 
+    this.router.post("/", Upload.save(uploadOptions), 
       Validator.execute({body: new UserCreateDto()}), userController.insert.bind(userController));  //el bind esta puesto para que busque el objeto de contexto dentro de la clase userController
-    this.router.get("/", AuthorizationMiddleware.canActive("ADMIN", "MEDIC"), 
+    this.router.get("/", AuthenticationMiddleware.canActive, AuthorizationMiddleware.canActive("ADMIN", "MEDIC"), 
       CacheMiddleware.build("user"),userController.getAll.bind(userController));
     this.router.get("/page/:page/:pageSize", CacheMiddleware.build("userByPage"), Validator.execute({params: new UserByPageDto()}),userController.getByPage.bind(userController));
     this.router.delete("/:id", Validator.execute({params: new UserIdDto(), body: new UserUpdateDto()}) ,userController.remove.bind(userController));
