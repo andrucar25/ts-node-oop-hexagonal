@@ -44,7 +44,7 @@ export class Parameters {
         process.env.DB_ENTITIES || "src/**/infrastructure/**/*.entity.ts"
       ],
       username: process.env.DB_USERNAME || "user",
-      password: process.env.DB_USERNAME || "12345",
+      password: process.env.DB_PASSWORD || "12345",
       database: process.env.DB_NAME || "course_nodejs",
       synchronize: process.env.DB_SYNCRHONIZE === 'false' ? false : true,
       logging: process.env.DB_LOGGING === 'false' ? false : true,
