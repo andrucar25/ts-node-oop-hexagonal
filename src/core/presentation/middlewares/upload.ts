@@ -1,14 +1,14 @@
-import { Request } from "express";
-import multer from "multer";
-import multer_s3 from "multer-s3";
-import { S3Client } from "@aws-sdk/client-s3";
+import { Request } from 'express';
+import multer from 'multer';
+import multer_s3 from 'multer-s3';
+import { S3Client } from '@aws-sdk/client-s3';
 //esto usa el patron builder
 export class UploadBuilder {
-  private _fieldName: string;    //se coloca _ como prefijo para indicar que es una propiedad privada, solo es algo semantico
+  private _fieldName: string; //se coloca _ como prefijo para indicar que es una propiedad privada, solo es algo semantico
   private _maxSize: number;
-  private _allowedMimeTypes: string[]
-  private _destination: string
-  private _isPublic: boolean
+  private _allowedMimeTypes: string[];
+  private _destination: string;
+  private _isPublic: boolean;
 
   get fieldName() {
     return this._fieldName;
@@ -55,8 +55,9 @@ export class UploadBuilder {
     return this;
   }
 
-  build() {   //el patron builder setea los parametros de esta clase Upload
-    return new UploadOptions(this)
+  build() {
+    //el patron builder setea los parametros de esta clase Upload
+    return new UploadOptions(this);
   }
 }
 
@@ -76,26 +77,26 @@ export class UploadOptions {
   }
 }
 
-export class Upload{
-
-  static save(options: UploadOptions){
-    return multer({           // multer devuelve un middleware con req, res y next
-      limits: {fileSize: options.maxSize},
+export class Upload {
+  static save(options: UploadOptions) {
+    return multer({
+      // multer devuelve un middleware con req, res y next
+      limits: { fileSize: options.maxSize },
       storage: multer_s3({
         s3: new S3Client({}),
-        bucket: "coursets-hexagonal-oop",
-        acl: options.isPublic ? "public-read" : "private",
-        metadata(req, file, cb){
-          cb(null, {fieldName: file.fieldname})
+        bucket: 'coursets-hexagonal-oop',
+        acl: options.isPublic ? 'public-read' : 'private',
+        metadata(req, file, cb) {
+          cb(null, { fieldName: file.fieldname });
         },
-        key(req: Request, file, cb){
+        key(req: Request, file, cb) {
           const mimeType = file.mimetype;
           const isFileAllowed = options.allowedMimeTypes.includes(mimeType);
           if (!isFileAllowed) {
-            cb(new Error("File type not allowed"));
+            cb(new Error('File type not allowed'));
           }
 
-          const partsFileName = file.originalname.split(".");
+          const partsFileName = file.originalname.split('.');
           const extension = partsFileName[partsFileName.length - 1];
           const fileName = `${options.destination}/${Date.now()}.${extension}`;
           req.body[options.fieldName] = fileName;
@@ -103,6 +104,6 @@ export class Upload{
           cb(null, fileName);
         },
       }),
-    }).single(options.fieldName)
+    }).single(options.fieldName);
   }
 }

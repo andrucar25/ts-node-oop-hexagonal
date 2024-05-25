@@ -1,9 +1,24 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { GENDER } from '../../../domain/roots/medic';
-import { Address } from "../../../domain/entities/address";
-import { Disease } from "../../../domain/entities/disease";
-import { Specialty } from "../../../domain/entities/specialty";
-import { Type } from "class-transformer";
+import { Address } from '../../../domain/entities/address';
+import { Disease } from '../../../domain/entities/disease';
+import { Specialty } from '../../../domain/entities/specialty';
+import { Type } from 'class-transformer';
 
 export class MedicCreateDto {
   @IsNotEmpty()
@@ -28,7 +43,7 @@ export class MedicCreateDto {
 
   @IsNotEmpty()
   @IsString()
-  @IsEmail({}, {message: "Email is not valid"})
+  @IsEmail({}, { message: 'Email is not valid' })
   email: string;
 
   @IsNotEmpty()

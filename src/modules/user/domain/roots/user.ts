@@ -1,4 +1,4 @@
-import { UserFactory } from "./user.factory";
+import { UserFactory } from './user.factory';
 
 export interface UserRequired {
   readonly name: string;
@@ -20,7 +20,9 @@ export interface UserOptional {
 
 export type UserProperties = UserRequired & Partial<UserOptional>;
 
-export type USerPropertiesUpdate = Partial<Omit<UserRequired, "email"> & Pick<UserOptional, "photo">>
+export type USerPropertiesUpdate = Partial<
+  Omit<UserRequired, 'email'> & Pick<UserOptional, 'photo'>
+>;
 export class User {
   private readonly id: string;
   private name: string;
@@ -35,7 +37,7 @@ export class User {
   private updatedAt: Date | null;
   private deletedAt: Date | null;
 
-  constructor(properties: UserProperties){
+  constructor(properties: UserProperties) {
     Object.assign(this, properties);
   }
 
@@ -53,24 +55,24 @@ export class User {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,
-    }
+    };
   }
 
-  static reconstitute(properties: UserProperties): User{
+  static reconstitute(properties: UserProperties): User {
     const result = UserFactory.create(properties);
 
-    if(result.isErr()) throw result.error
-    return result.value
+    if (result.isErr()) throw result.error;
+    return result.value;
   }
 
-  delete(){
+  delete() {
     this.isActive = false;
     this.deletedAt = new Date();
   }
 
-  update(fields: USerPropertiesUpdate){
+  update(fields: USerPropertiesUpdate) {
     const fieldsFiltered = Object.fromEntries(
-      Object.entries(fields).filter(([_, v]) => v != null)
+      Object.entries(fields).filter(([_, v]) => v !== null),
     );
     Object.assign(this, fieldsFiltered);
     this.updatedAt = new Date();

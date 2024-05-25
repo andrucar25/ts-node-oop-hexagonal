@@ -1,7 +1,7 @@
 import {
   ExceptionBase,
   ExceptionCode,
-} from "../../../../core/exceptions/exception-base";
+} from '../../../../core/exceptions/exception-base';
 
 export class UserEmailInvalidException extends ExceptionBase {
   constructor(message: string) {

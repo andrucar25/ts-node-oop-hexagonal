@@ -1,4 +1,4 @@
-import { Exclude, Expose, Type } from "class-transformer";
+import { Exclude, Expose, Type } from 'class-transformer';
 
 export class RoleResponse {
   // @Exclude()
@@ -6,7 +6,6 @@ export class RoleResponse {
 
   @Expose()
   name: string;
-
 }
 export class UserCreatedResponse {
   @Expose()
@@ -27,12 +26,12 @@ export class UserCreatedResponse {
   @Exclude()
   isActive: boolean;
 
-  @Exclude()  
+  @Exclude()
   createdAt: Date;
 
   @Exclude()
   updatedAt: Date | null;
-  
+
   @Exclude()
   deletedAt: Date | null;
 

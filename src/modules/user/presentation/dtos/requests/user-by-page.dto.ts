@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class UserByPageDto {
   @IsNotEmpty()
@@ -8,5 +8,4 @@ export class UserByPageDto {
   @IsNotEmpty()
   @IsNumber()
   pageSize: number;
-
 }

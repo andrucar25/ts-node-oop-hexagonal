@@ -1,7 +1,7 @@
-import { err, ok } from "neverthrow";
+import { err, ok } from 'neverthrow';
 
-import { Disease } from "../../domain/entities/disease";
-import { GENDER, Medic, MedicProperties } from "../../domain/roots/medic";
+import { Disease } from '../../domain/entities/disease';
+import { GENDER, Medic, MedicProperties } from '../../domain/roots/medic';
 
 export class MedicGetAllDto {
   static fromDataToDomain(listMedic: any[]) {
@@ -40,15 +40,13 @@ export class MedicGetAllDto {
 
       if (!result.isErr()) {
         return result.value;
-      } else {
-        errorMatch = result.error;
       }
+      errorMatch = result.error;
     });
 
     if (errorMatch) {
       return err(errorMatch);
-    } else {
-      return ok(list);
     }
+    return ok(list);
   }
 }

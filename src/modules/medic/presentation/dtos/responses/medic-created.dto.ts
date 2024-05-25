@@ -6,21 +6,21 @@ import { Disease } from '../../../domain/entities/disease';
 import { v4 as uuidv4 } from 'uuid';
 
 export class MedicCreatedDto {
-  @Expose({name: "id"})
+  @Expose({ name: 'id' })
   medicId: string;
 
-  @Expose({name: "name"})
+  @Expose({ name: 'name' })
   nombre: string;
   lastname: string;
   cmp: string;
   specialty: Specialty;
-  
-  @Expose({groups: ["admin"]})
+
+  @Expose({ groups: ['admin'] })
   email: string;
 
   @Exclude()
   dni: string;
-  
+
   @Exclude()
   phone: string;
 
@@ -56,16 +56,20 @@ export class StandardResponse {
   traceId: string;
 
   @Type(() => MedicCreatedDto) //esto devuelve metadata, por eso se instala la libreria para habilitar el uso de metadata
-  results: MedicCreatedDto
+  results: MedicCreatedDto;
 
-  constructor(){
+  constructor() {
     this.traceId = uuidv4();
   }
 }
 
 export class MedicCreateResponse {
-  static fromDomainToResponse(medic: Medic){
-    const properties = medic.properties()
-    return plainToInstance(StandardResponse, {results: properties}, {groups: ["admin"]});
+  static fromDomainToResponse(medic: Medic) {
+    const properties = medic.properties();
+    return plainToInstance(
+      StandardResponse,
+      { results: properties },
+      { groups: ['admin'] },
+    );
   }
 }

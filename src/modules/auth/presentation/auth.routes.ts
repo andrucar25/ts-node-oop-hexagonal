@@ -1,12 +1,11 @@
-import { Router } from "express";
-import { Validator } from "../../../core/presentation/middlewares/validator";
-import { AuthLoginDto } from "./dtos/requests/auth-login.dto";
-import { AuthController } from "./auth.controller";
+import { Router } from 'express';
+import { Validator } from '../../../core/presentation/middlewares/validator';
+import { AuthLoginDto } from './dtos/requests/auth-login.dto';
+import { AuthController } from './auth.controller';
 import { AuthApplication } from '../application/auth.application';
 import { UserApplication } from '../../user/application/user.application';
 import { UserInfrastructure } from '../../user/infrastructure/user.infrastructure';
 import { RoleInfrastructure } from '../../roles/infrastructure/role.infrastructure';
-
 
 const roleRepository = new RoleInfrastructure();
 const userRepository = new UserInfrastructure();
@@ -23,7 +22,11 @@ class AuthRoutes {
   }
 
   addRoutes() {
-    this.router.post("/login", Validator.execute({body: new AuthLoginDto()}), authController.login.bind(authController)); 
+    this.router.post(
+      '/login',
+      Validator.execute({ body: new AuthLoginDto() }),
+      authController.login.bind(authController),
+    );
   }
 }
 

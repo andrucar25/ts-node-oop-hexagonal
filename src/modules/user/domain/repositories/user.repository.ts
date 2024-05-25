@@ -1,5 +1,9 @@
-import { UserDomainResult, UserGetByPageResult, UserResult } from "../../infrastructure/user.infrastructure";
-import { User } from "../roots/user";
+import {
+  UserDomainResult,
+  UserGetByPageResult,
+  UserResult,
+} from '../../infrastructure/user.infrastructure';
+import { User } from '../roots/user';
 
 export interface UserRepository {
   save(user: User): Promise<UserResult>;

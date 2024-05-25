@@ -1,12 +1,12 @@
-import { DataSource } from "typeorm";
-import IORedis from "ioredis";
-import { Request, Response } from "express";
-import { Bootstrap } from "./bootstrap";
-import { Parameters } from "../core/helpers/parameters";
-import logger from "../core/helpers/logger";
+import { DataSource } from 'typeorm';
+import IORedis from 'ioredis';
+import { Request, Response } from 'express';
+import { Bootstrap } from './bootstrap';
+import { Parameters } from '../core/helpers/parameters';
+import logger from '../core/helpers/logger';
 
 export default class RedisBootstrap implements Bootstrap {
-  private static client: IORedis
+  private static client: IORedis;
 
   initialize(): Promise<boolean | Error | DataSource> {
     return new Promise((resolve, reject) => {
@@ -14,16 +14,18 @@ export default class RedisBootstrap implements Bootstrap {
       const client = new IORedis(redisConfig);
 
       client
-        .on("connect", () =>{
-            logger.info(`Redis connected at ${redisConfig.host}:${redisConfig.port}`);
-            resolve(true);
+        .on('connect', () => {
+          logger.info(
+            `Redis connected at ${redisConfig.host}:${redisConfig.port}`,
+          );
+          resolve(true);
         })
-        .on("error", (error) => {
-            logger.error(`Redis error: ${error}`);
-            reject(error);
+        .on('error', (error) => {
+          logger.error(`Redis error: ${error}`);
+          reject(error);
         });
 
-        RedisBootstrap.client = client;
+      RedisBootstrap.client = client;
     });
   }
   close(): void {
@@ -35,23 +37,22 @@ export default class RedisBootstrap implements Bootstrap {
   }
 
   static async set(key: string, value: string) {
-    await this.client.set(key, value, "PX", 24 * 60 * 60 * 1000);
+    await this.client.set(key, value, 'PX', 24 * 60 * 60 * 1000);
   }
 
   static async get(key: string) {
-    return await this.client.get(key)
+    return await this.client.get(key);
   }
 
-  static async clear(prefix: string = "") {
+  static async clear(prefix: string = '') {
     const keys = await this.client.keys(`${prefix}*`);
-    if(keys.length > 0){
+    if (keys.length > 0) {
       await this.client.del(keys);
     }
   }
 
-  static clearCache(req: Request, res: Response){
+  static clearCache(req: Request, res: Response) {
     RedisBootstrap.clear();
-    res.send('Cache cleared')
+    res.send('Cache cleared');
   }
-
 }

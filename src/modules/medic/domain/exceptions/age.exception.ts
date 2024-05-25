@@ -1,9 +1,12 @@
-import {ExceptionBase, ExceptionCode} from "../../../../core/exceptions/exception-base";
+import {
+  ExceptionBase,
+  ExceptionCode,
+} from '../../../../core/exceptions/exception-base';
 
-export class MedicAgeException extends ExceptionBase{
-  constructor(){
+export class MedicAgeException extends ExceptionBase {
+  constructor() {
     super();
     Object.setPrototypeOf(this, MedicAgeException.prototype);
-    this.code = ExceptionCode.MedicAgeException
+    this.code = ExceptionCode.MedicAgeException;
   }
 }
