@@ -11,7 +11,15 @@ export class AuthenticationMiddleware {
       err.status = 401;
       return next(err);
     }
-    Token.validateAccessToken(authorization)
+
+    const parts = authorization.split('Bearer');
+    if(parts.length !== 2){
+      const err: IError = new Error('User not authenticated');
+      err.status = 401
+      return next(err);
+    }
+
+    Token.validateAccessToken(parts[1].trim())
       .then((payload: any) => {
         res.locals.roles = payload.roles;
         next();
